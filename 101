@@ -1,0 +1,20 @@
+import json
+from jsonschema import validate, Draft4Validator
+
+def json_test(first_name, last_name, *args):
+
+	def validations(first_name,last_name,schemas):
+		
+		v = Draft4Validator(schemas)
+		errors = sorted(v.iter_errors({"first_name" : first_name, "last_name":last_name}), key=lambda e: e.path)
+		for error in errors:
+			print(error.message)
+
+	Contact_Form = {"type" : "object",
+					"properties" : {
+														"first_name" : {"type":"string"},
+														"last_name" :  {"type":"string"},
+														},
+					"additional properties":""
+					}
+	validations(first_name, last_name, Contact_Form)
